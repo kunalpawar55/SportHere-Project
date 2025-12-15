@@ -94,7 +94,6 @@ export default function UserPanel() {
                 <p><b>Entry Fee:</b> ₹{item.entryFrres}</p>
               </div>
 
-              {/* BUTTONS */}
               <div className="flex gap-3 mt-4">
                 <button
                   className="w-1/2 py-2 border border-blue-400 text-blue-400 rounded-lg hover:bg-blue-500 hover:text-white"

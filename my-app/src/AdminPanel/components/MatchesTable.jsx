@@ -1,8 +1,20 @@
-// MatchesTable.jsx
+import axios from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
 
 export default function MatchesTable({ matches, deleteMatch }) {
+
+
+  const deleteMatch1 = async (id) => {
+    if (!window.confirm("Delete this match?")) return;
+    try {
+      await axios.delete(`http://localhost:8080/Delete/${id}`);
+      alert("Deleted!");
+    } catch (e) {
+      alert("Delete failed");
+    }
+  };
+  
   return (
     <div className="mt-6 bg-white rounded-xl shadow p-5">
       <h3 className="text-lg font-semibold mb-4">All Matches</h3>
@@ -28,7 +40,7 @@ export default function MatchesTable({ matches, deleteMatch }) {
               <td>
                 <button
                   className="px-3 py-1 bg-red-600 text-white rounded"
-                  onClick={() => deleteMatch(m.id)}
+                  onClick={() => deleteMatch1(m.id)}
                 >
                   Delete
                 </button>

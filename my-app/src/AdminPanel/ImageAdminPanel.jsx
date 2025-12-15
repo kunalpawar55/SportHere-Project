@@ -19,9 +19,9 @@ export default function ImageAdminPanel() {
   };
 
   return (
-    <div className="p-5 bg-gray-100 min-h-screen">
+    <div className="p-5 bg-black-100 min-h-screen">
 
-      <h1 className="text-3xl font-bold text-red-600 mb-6">
+      <h1 className="text-3xl text-center font-bold text-red-600 mb-6 p-6">
         Image Admin Panel
       </h1>
 

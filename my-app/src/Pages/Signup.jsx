@@ -21,7 +21,7 @@ export default function Signup() {
 
     const logindata = {
       dob: dob.trim(),
-      email: email.trim(),
+      email: email.trim().toLowerCase(),
       fullName: fullname.trim(),
       number: mobile.trim(),
       password: password,

@@ -8,6 +8,7 @@ export default function AddPomplate() {
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user"));
+
   const email = user ? user.email : null;
 
   const handleUpload = async () => {
@@ -21,9 +22,9 @@ export default function AddPomplate() {
         const formData = new FormData();
         formData.append("Doc", file);
         formData.append("sportname", sportName);
-
+        formData.append("emailadress", email);
         const { data } = await axios.post(
-          "http://localhost:8080/UploadImage",
+          "http://localhost:8080/UploadImage",  
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );

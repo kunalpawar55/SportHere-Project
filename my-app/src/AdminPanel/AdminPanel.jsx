@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Topbar from "./components/Topbar";
 import AdminSidebar from "./components/AdminSidebar";
 import StatsCard from "./components/StatsCard";
@@ -11,10 +11,17 @@ import useAdminData from "./Hooks/useAdminData";
 
 export default function AdminPanel() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("dashboard"); // ⭐ important
+  const [activeSection, setActiveSection] = useState("dashboard");
 
   const { loading, error, users, matches, images, deleteMatch } = useAdminData();
 
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("user"));
+
+    if (!userData || userData.role !== "admin") {
+      window.location.href = "/login";
+    }
+  }, []);
   const totalUsers = users.length;
   const totalMatches = matches.length + images.length;
   const totalDownloads = 678;
@@ -22,12 +29,10 @@ export default function AdminPanel() {
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900">
 
-      {/* TOP BAR */}
       <Topbar setSidebarOpen={setSidebarOpen} />
 
       <div className="flex">
 
-        {/* SIDEBAR */}
         <AdminSidebar
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
@@ -35,7 +40,6 @@ export default function AdminPanel() {
           setActiveSection={setActiveSection}
         />
 
-        {/* MAIN CONTENT */}
         <main className="flex-1 md:ml-64 p-6">
 
           {loading && <div className="text-center py-20">Loading...</div>}
@@ -43,29 +47,24 @@ export default function AdminPanel() {
 
           {!loading && !error && (
             <>
-              {/* DASHBOARD SECTION */}
               {activeSection === "dashboard" && (
                 <>
-                  {/* STATS */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                     <StatsCard title="Total Users" value={totalUsers} color="#10B981" trend="+2.6%" />
                     <StatsCard title="Total Matches" value={totalMatches} color="#0EA5E9" trend="+0.2%" />
                     <StatsCard title="Downloads" value={totalDownloads} color="#EF4444" trend="-0.1%" />
                   </div>
 
-                  {/* RECENT */}
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
                     <RecentUsers users={users} />
                     <RecentMatches matches={matches} />
                     <QuickActions setActiveSection={setActiveSection} />
                   </div>
 
-                  {/* TABLE */}
                   <MatchesTable matches={matches} deleteMatch={deleteMatch} />
                 </>
               )}
 
-              {/* IMAGE PANEL SECTION */}
               {activeSection === "images" && <ImageAdminPanel />}
             </>
           )}
